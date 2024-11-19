@@ -39,7 +39,6 @@ const MapComponent = () => {
     useMapStore();
 
   const [isClicked, setIsClicked] = useState(false);
-  const [clickedMarkerId, setClickedMarkerId] = useState<number | null>(null); // Store clicked marker index
 
   const getCurrentPosition = () =>
     navigator.geolocation.getCurrentPosition(

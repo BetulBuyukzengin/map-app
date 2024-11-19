@@ -8,7 +8,7 @@ import { TiArrowRightThick } from "react-icons/ti";
 import { CustomDrawer } from "./CustomDrawer";
 import { useMapStore } from "../_store/useMapStore";
 
-const MarkersTable = ({ isEdit, isList, setOpen, open }) => {
+const MarkersTable = ({ isEdit, isList }) => {
   const { markers } = useMapStore();
   const [openPopoverIndex, setOpenPopoverIndex] = useState(null);
 

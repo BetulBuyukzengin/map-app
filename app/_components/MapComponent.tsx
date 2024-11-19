@@ -106,7 +106,9 @@ const MapComponent = () => {
           setIsClicked(true);
 
           setAddress(data?.display_name);
-        } catch (error) {}
+        } catch (error) {
+          throw new Error(error);
+        }
       },
     });
     return null;
@@ -140,9 +142,7 @@ const MapComponent = () => {
           <Marker
             key={index}
             position={marker.position}
-            icon={createIconWithColor(
-              clickedMarkerId === index ? markerColor : marker.color
-            )}
+            icon={createIconWithColor(marker.color)}
           >
             <Popup>
               <Box>

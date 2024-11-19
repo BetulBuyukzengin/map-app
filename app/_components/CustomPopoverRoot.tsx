@@ -6,13 +6,7 @@ import {
   PopoverRoot,
 } from "@chakra-ui/react";
 
-function CustomPopoverRoot({
-  children,
-  popoverAnchorRef,
-  open,
-  positionRight,
-  setOpen,
-}) {
+function CustomPopoverRoot({ children, popoverAnchorRef, open }) {
   return (
     <PopoverRoot
       open={open}

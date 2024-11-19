@@ -1,4 +1,3 @@
-import { LatLng } from "leaflet";
 import { create } from "zustand";
 
 interface StoreState {
@@ -48,34 +47,11 @@ export const useMapStore = create<StoreState>((set) => ({
       currentLocation: [lat, lng],
     }),
   markers: [],
-  // addMarker: ({ position: { lat, lng }, markerName, color, address, id }) => {
-  //   return set((state) => ({
-  //     markers: [
-  //       ...state.markers,
-  //       { position: [lat, lng], address, color, markerName, id },
-  //     ],
-  //   }));
-  // },
   addMarker: (marker) => {
     return set((state) => ({
       markers: [...state.markers, marker],
     }));
   },
-  // updateMarker: ({ position: { lat, lng }, id, color, markerName }) => {
-  //   set((state) => ({
-  //     markers: state.markers.map((marker) => {
-  //       if (marker.id === id) {
-  //         return {
-  //           ...marker,
-  //           position: marker.position,
-  //           color: color ?? marker.color,
-  //           markerName: markerName ?? marker.markerName,
-  //         };
-  //       }
-  //       return marker;
-  //     }),
-  //   }));
-  // },
   updateMarker: ({ id, position, color, markerName }) => {
     set((state) => ({
       markers: state.markers.map((marker) => {

@@ -1,13 +1,16 @@
 import { create } from "zustand";
+export interface Marker {
+  position: [number, number];
+  address: string | null;
+  color: string | null;
+  id: string;
+  markerName: string | null;
+}
 
 interface StoreState {
   currentLocation: [number, number] | null;
   setCurrentLocation: (lat: number, lng: number) => void;
-  markers: {
-    position: [number, number];
-    address: string | null;
-    color: string | null;
-  }[];
+  markers: Marker[];
 
   addMarker: ({
     id,
@@ -46,7 +49,7 @@ export const useMapStore = create<StoreState>((set) => ({
     set({
       currentLocation: [lat, lng],
     }),
-  markers: [],
+  markers: JSON.parse(localStorage.getItem("markers") as string) || [],
   addMarker: (marker) => {
     return set((state) => ({
       markers: [...state.markers, marker],

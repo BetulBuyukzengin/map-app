@@ -2,12 +2,7 @@
 import L, { LatLngExpression, LatLngTuple } from "leaflet";
 import "leaflet-routing-machine";
 import { useEffect, useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  useMapEvents,
-  ZoomControl,
-} from "react-leaflet";
+import { TileLayer, useMapEvents, ZoomControl } from "react-leaflet";
 import { defaultCoords } from "../_constants/constants";
 import { useMapStore } from "../_store/useMapStore";
 import { useCurrentPosition } from "../_utils/useCurrentPosition";
@@ -16,11 +11,10 @@ import CustomAddMarkerCurrentLocation from "./CustomAddMarkerCurrentLocation";
 import CustomMarkerAdd from "./CustomMarkerAdd";
 import GetCurrentPositionButton from "./GetCurrentPositionButton";
 import dynamic from "next/dynamic";
-// import { sortPinsByDistance } from "../_utils/utils";
 
 const MapContainerWithNoSSR = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
-  { ssr: false } // Sunucu tarafında render edilmesin
+  { ssr: false }
 );
 const RoutingControl = ({
   routeWaypoints,

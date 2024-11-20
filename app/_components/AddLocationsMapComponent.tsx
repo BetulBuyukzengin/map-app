@@ -4,12 +4,7 @@ import L, { LatLngExpression } from "leaflet";
 import { useEffect, useRef, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { IoCloseSharp } from "react-icons/io5";
-import {
-  // MapContainer,
-  TileLayer,
-  useMapEvents,
-  ZoomControl,
-} from "react-leaflet";
+import { TileLayer, useMapEvents, ZoomControl } from "react-leaflet";
 import { v4 as uuidv4 } from "uuid";
 import { defaultCoords } from "../_constants/constants";
 import { Marker as MarkerType, useMapStore } from "../_store/useMapStore";
@@ -23,7 +18,7 @@ import dynamic from "next/dynamic";
 
 const MapContainerWithNoSSR = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
-  { ssr: false } // Sunucu tarafında render edilmesin
+  { ssr: false }
 );
 
 const AddLocationsMapComponent = () => {

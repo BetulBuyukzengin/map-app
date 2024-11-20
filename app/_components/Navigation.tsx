@@ -9,13 +9,13 @@ const navigations = [
 
 function Navigation() {
   return (
-    <nav className="z-10 text-base md:text-xl w-full md:w-auto">
-      <ul className="flex flex-col md:flex-row gap-2 md:gap-16 items-center">
+    <nav className="z-10 text-base lg:text-xl w-full lg:w-auto">
+      <ul className="flex flex-col lg:flex-row gap-5 lg:gap-16 items-center">
         {navigations.map((navigate) => (
           <li key={navigate.id}>
             <Link
               href={navigate.href}
-              className="hover:text-slate-300 text-slate-100 transition-colors text-lg md:text-xl font-serif"
+              className=" hover:text-slate-300 text-slate-100 transition-colors text-2xl  font-serif"
             >
               {navigate.title}
             </Link>

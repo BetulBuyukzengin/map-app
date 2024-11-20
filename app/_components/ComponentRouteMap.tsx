@@ -15,8 +15,13 @@ import ChangeCenter from "./ChangeCenter";
 import CustomAddMarkerCurrentLocation from "./CustomAddMarkerCurrentLocation";
 import CustomMarkerAdd from "./CustomMarkerAdd";
 import GetCurrentPositionButton from "./GetCurrentPositionButton";
+import dynamic from "next/dynamic";
 // import { sortPinsByDistance } from "../_utils/utils";
 
+const MapContainerWithNoSSR = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false } // Sunucu tarafında render edilmesin
+);
 const RoutingControl = ({
   routeWaypoints,
 }: {
@@ -60,7 +65,7 @@ const MapComponent = () => {
 
   return (
     <div className="w-full h-dvh relative">
-      <MapContainer
+      <MapContainerWithNoSSR
         center={mapPosition as LatLngExpression | undefined}
         zoom={13}
         zoomControl={false}
@@ -89,7 +94,7 @@ const MapComponent = () => {
         )}
         <ZoomControl position="bottomright" />
         <ChangeCenter position={mapPosition} />
-      </MapContainer>
+      </MapContainerWithNoSSR>
       <GetCurrentPositionButton getCurrentPosition={getCurrentPosition} />
     </div>
   );

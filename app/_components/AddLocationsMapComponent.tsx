@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { IoCloseSharp } from "react-icons/io5";
 import {
-  MapContainer,
+  // MapContainer,
   TileLayer,
   useMapEvents,
   ZoomControl,
@@ -19,6 +19,12 @@ import CustomAddMarkerCurrentLocation from "./CustomAddMarkerCurrentLocation";
 import CustomMarkerAdd from "./CustomMarkerAdd";
 import CustomPopoverRoot from "./CustomPopoverRoot";
 import GetCurrentPositionButton from "./GetCurrentPositionButton";
+import dynamic from "next/dynamic";
+
+const MapContainerWithNoSSR = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false } // Sunucu tarafında render edilmesin
+);
 
 const AddLocationsMapComponent = () => {
   const [address, setAddress] = useState("");
@@ -103,7 +109,7 @@ const AddLocationsMapComponent = () => {
 
   return (
     <div className="w-full h-dvh relative">
-      <MapContainer
+      <MapContainerWithNoSSR
         center={mapPosition}
         zoomControl={false}
         zoom={13}
@@ -132,7 +138,7 @@ const AddLocationsMapComponent = () => {
         <MapEvents />
         <ZoomControl position="bottomright" />
         <ChangeCenter position={mapPosition} />
-      </MapContainer>
+      </MapContainerWithNoSSR>
       <GetCurrentPositionButton getCurrentPosition={getCurrentPosition} />
 
       <Box ref={popoverAnchorRef} position="absolute" left={50} top={50}>

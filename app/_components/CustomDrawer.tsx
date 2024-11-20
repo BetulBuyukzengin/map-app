@@ -1,6 +1,6 @@
 "use client";
 
-import { Input, Stack } from "@chakra-ui/react";
+import { ReactNode } from "react";
 import { Button } from "../../components/ui/button";
 import {
   DrawerActionTrigger,
@@ -10,87 +10,54 @@ import {
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
+  DrawerRoot,
   DrawerTitle,
   DrawerTrigger,
-  DrawerRoot,
 } from "../../components/ui/drawer";
-import { useRef, useState, useEffect } from "react";
-import { HexColorPicker } from "react-colorful";
-import { useMapStore } from "../_store/useMapStore";
+import { MdMenu } from "react-icons/md";
 
-export const CustomDrawer = ({ markerId }) => {
-  const { markers, updateMarker } = useMapStore();
-  const [selectedMarker, setSelectedMarker] = useState(null);
-  const ref = useRef<HTMLInputElement>(null);
+interface CustomDrawerType {
+  handleUpdateMarker: () => void;
+  children: ReactNode;
+  ref: HTMLInputElement;
+  isEdit: boolean;
+  isHeader: boolean;
+}
 
-  useEffect(() => {
-    const marker = markers.find((m) => m.id === markerId);
-    setSelectedMarker(marker);
-  }, [markerId, markers]);
-
-  const handleUpdateMarker = () => {
-    if (selectedMarker) {
-      updateMarker(selectedMarker);
-
-      // update local storage
-      const updatedMarkers = markers.map((marker) =>
-        marker.id === selectedMarker.id ? selectedMarker : marker
-      );
-      localStorage.setItem("markers", JSON.stringify(updatedMarkers));
-    }
-  };
-
-  if (!selectedMarker) return null;
-
+export const CustomDrawer: React.FC<CustomDrawerType> = (
+  { children, handleUpdateMarker, isEdit, isHeader },
+  ref
+) => {
   return (
-    <DrawerRoot initialFocusEl={() => ref.current}>
+    <DrawerRoot
+      initialFocusEl={() => ref.current}
+      placement={`${isEdit ? "end" : "start"}`}
+    >
       <DrawerBackdrop />
-      <DrawerTrigger asChild>
-        <Button variant="outline" size="md">
-          Edit
+      <DrawerTrigger asChild className={`${isHeader ? "lg:hidden" : ""}`}>
+        <Button
+          variant="outline"
+          size="md"
+          className={`${isHeader ? "text-slate-50" : "text-slate-900"}`}
+        >
+          {isEdit ? "Edit" : <MdMenu className="size-10" />}
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent
+        className={`${isHeader ? "bg-slate-600" : ""} text-slate-50`}
+      >
         <DrawerHeader>
-          <DrawerTitle>Edit Location</DrawerTitle>
+          <DrawerTitle>{isEdit ? "Edit Location" : ""}</DrawerTitle>
         </DrawerHeader>
-        <DrawerBody>
-          <Stack mt="5">
-            <Input
-              placeholder="Position Name"
-              value={selectedMarker.markerName}
-              onChange={(e) =>
-                setSelectedMarker({
-                  ...selectedMarker,
-                  markerName: e.target.value,
-                })
-              }
-            />
-            <Input
-              ref={ref}
-              placeholder="Position Address"
-              value={selectedMarker.address}
-              onChange={(e) =>
-                setSelectedMarker({
-                  ...selectedMarker,
-                  address: e.target.value,
-                })
-              }
-            />
-            <HexColorPicker
-              color={selectedMarker.color}
-              onChange={(color) =>
-                setSelectedMarker({ ...selectedMarker, color })
-              }
-            />
-          </Stack>
-        </DrawerBody>
-        <DrawerFooter>
-          <DrawerActionTrigger asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerActionTrigger>
-          <Button onClick={handleUpdateMarker}>Save</Button>
-        </DrawerFooter>
+        <DrawerBody>{children}</DrawerBody>
+        {isEdit ? (
+          <DrawerFooter>
+            <DrawerActionTrigger asChild>
+              <Button variant="outline">Cancel</Button>
+            </DrawerActionTrigger>
+            <Button onClick={handleUpdateMarker}>Save</Button>
+          </DrawerFooter>
+        ) : null}
         <DrawerCloseTrigger />
       </DrawerContent>
     </DrawerRoot>

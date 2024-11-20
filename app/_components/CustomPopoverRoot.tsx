@@ -5,18 +5,19 @@ import {
   PopoverTrigger,
   PopoverRoot,
 } from "@chakra-ui/react";
+import { RefObject } from "react";
 
-function CustomPopoverRoot({ children, popoverAnchorRef, open }) {
+interface CustomPopoverRootProps {
+  children: React.ReactNode;
+  ref: RefObject<HTMLDivElement>;
+  open: boolean;
+}
+
+function CustomPopoverRoot({ children, ref, open }: CustomPopoverRootProps) {
   return (
-    <PopoverRoot
-      open={open}
-      // positioning={{
-      //   offset: { crossAxis: 20, mainAxis: 10 },
-      //   placement: "right",
-      // }}
-    >
+    <PopoverRoot open={open}>
       <PopoverTrigger>
-        <Box ref={popoverAnchorRef} />
+        <Box ref={ref} />
       </PopoverTrigger>
       <PopoverContent>
         <PopoverBody>{children}</PopoverBody>

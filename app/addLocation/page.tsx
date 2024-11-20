@@ -1,12 +1,16 @@
 "use client";
 import "leaflet/dist/leaflet.css";
-
-import MapComponent from "../_components/MapComponent";
+import AddLocationsMapComponent from "../_components/AddLocationsMapComponent";
+import { useEffect } from "react";
 
 const AddLocation = () => {
+  useEffect(() => {
+    document.title = "Add Location";
+  }, []);
+
   return (
     <main className="relative">
-      <MapComponent />
+      <AddLocationsMapComponent />
     </main>
   );
 };

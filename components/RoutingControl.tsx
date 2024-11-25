@@ -1,8 +1,8 @@
 "use client";
-import L from "leaflet";
 import { useEffect } from "react";
 import { useMapEvents } from "react-leaflet";
 import { UserPositionIncludedType } from "@interfaces/userPositionIncluded.types";
+import { MarkerPositionsType } from "@interfaces/markerPositions.types";
 
 export const RoutingControl = ({
     routeWaypoints,
@@ -10,25 +10,31 @@ export const RoutingControl = ({
     routeWaypoints: UserPositionIncludedType;
 }) => {
     const map = useMapEvents({});
-    const markerPositions = routeWaypoints.map(mar =>
-        mar === null || Array.isArray(mar) ? mar : mar.position
-    );
+    const markerPositions: MarkerPositionsType = routeWaypoints
+        .map(mar => {
+            if (mar === null) return null;
+            if (Array.isArray(mar)) return mar as MarkerPositionsType;
+            return mar.position ? (mar.position as MarkerPositionsType) : null;
+        })
+        .filter((position): position is [number, number] => position !== null);
 
     useEffect(() => {
         if (markerPositions.length >= 2) {
-            const routingControl = L.Routing.control({
-                plan: L.routing.plan(markerPositions as any, {
-                    createMarker: function (index, marker) {
-                        return false;
-                    },
-                }),
-                waypoints: markerPositions
-                    .filter(point => point !== null && point !== undefined)
-                    .map(point => L.latLng(point?.[0], point?.[1])),
-                routeWhileDragging: true,
-            }).addTo(map);
+            const loadIcon = async () => {
+                const L = await import("leaflet");
+                L.Routing.control({
+                    plan: L.routing.plan(
+                        markerPositions.map(point => L.latLng(point)),
+                        {
+                            createMarker: () => false,
+                        }
+                    ),
+                    waypoints: markerPositions.map(point => L.latLng(point)),
+                    routeWhileDragging: true,
+                }).addTo(map);
+            };
+            loadIcon();
         }
     }, [markerPositions, map]);
-
     return null;
 };

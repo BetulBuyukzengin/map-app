@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["@chakra-ui/react"],
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   webpack: (config) => {
     config.resolve.fallback = {
       fs: false,

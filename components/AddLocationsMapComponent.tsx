@@ -2,7 +2,7 @@
 import Map from "./Map";
 import dynamic from "next/dynamic";
 import { v4 as uuidv4 } from "uuid";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import L, { LatLngExpression } from "leaflet";
 import { IoCloseSharp } from "react-icons/io5";
 import { HexColorPicker } from "react-colorful";

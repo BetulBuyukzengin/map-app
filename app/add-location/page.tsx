@@ -1,7 +1,21 @@
+"use client";
 import "leaflet/dist/leaflet.css";
-import AddLocationsMapComponent from "@components/AddLocationsMapComponent";
+import dynamic from "next/dynamic";
+import React, { useEffect } from "react";
 
 function AddLocation() {
+    const AddLocationsMapComponent = React.useMemo(
+        () =>
+            dynamic(() => import("@components/AddLocationsMapComponent"), {
+                ssr: false,
+            }),
+        []
+    );
+
+    useEffect(() => {
+        document.title = "Add Location";
+    }, []);
+
     return (
         <main className="relative">
             <AddLocationsMapComponent />

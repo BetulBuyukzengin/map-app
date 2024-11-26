@@ -1,9 +1,17 @@
 "use client";
 import { Button } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useEffect } from "react";
-import MarkersTable from "@components/MarkersTable";
+import React, { useEffect } from "react";
 function ListLocations() {
+    const MarkersTable = React.useMemo(
+        () =>
+            dynamic(() => import("@components/MarkersTable"), {
+                ssr: false,
+            }),
+        []
+    );
+
     useEffect(() => {
         document.title = "List Locations";
     }, []);

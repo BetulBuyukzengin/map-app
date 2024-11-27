@@ -1,10 +1,10 @@
-import { create } from "zustand";
+import { create, StateCreator } from "zustand";
 import { MarkerType } from "@interfaces/marker.types";
 import { StoreStateType } from "@interfaces/storeState.types";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-export const useMapStore = create(
-    persist<StoreStateType>(
+export const useMapStore = create<StoreStateType>()(
+    persist(
         set => ({
             error: null,
             currentLocation: null,
@@ -43,6 +43,9 @@ export const useMapStore = create(
         {
             name: "map-app",
             storage: createJSONStorage(() => localStorage),
+            partialize: state => ({
+                markers: state.markers,
+            }),
         }
     )
-);
+) as StateCreator<StoreStateType, [], [["zustand/persist", unknown]]>;
